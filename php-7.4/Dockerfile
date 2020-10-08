@@ -88,7 +88,7 @@ RUN curl -s http://getcomposer.org/installer | php && \
 # New Relic Build Stage
 FROM php-7.4-base AS php-7.4-newrelic
 # Install New Relic Agent
-RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.12.0.268-linux.tar.gz \
+RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.13.0.270-linux.tar.gz \
     | tar -C /tmp -zx \
     && export NR_INSTALL_USE_CP_NOT_LN=1 \
     && export NR_INSTALL_SILENT=1 \
@@ -100,3 +100,8 @@ COPY newrelic.ini.template /usr/local/etc/php/conf.d/newrelic.ini.template
 COPY entrypoint.sh /usr/local/bin
 RUN chmod a=rx /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
+
+# Datadog build stage
+FROM php-7.4-newrelic AS php-7.4-datadog
+RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.48.3/datadog-php-tracer_0.48.3_amd64.deb \
+    && dpkg -i datadog-php-tracer.deb
