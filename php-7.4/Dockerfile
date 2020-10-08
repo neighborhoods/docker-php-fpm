@@ -102,6 +102,6 @@ RUN chmod a=rx /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
 # Datadog build stage
-FROM php-7.4-newrelic AS php-7.4-datadog
+FROM php-7.4-newrelic AS php-7.4-newrelic-datadog
 RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.48.3/datadog-php-tracer_0.48.3_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
