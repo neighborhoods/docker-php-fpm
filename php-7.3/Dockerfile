@@ -140,3 +140,13 @@ RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/re
 FROM php-7.3-newrelic AS php-7.3-newrelic-datadog
 RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
+
+# Add Datadog to the Phalcon image
+FROM php-7.3-phalcon AS php-7.3-phalcon-datadog
+RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
+    && dpkg -i datadog-php-tracer.deb
+
+# Add Datadog to the base image
+FROM php-7.3-base AS php-7.3-datadog
+RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
+    && dpkg -i datadog-php-tracer.deb
