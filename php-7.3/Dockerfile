@@ -133,10 +133,10 @@ ENTRYPOINT ["entrypoint.sh"]
 
 # Add Datadog to the Phalcon + New Relic image
 FROM php-7.3-phalcon-newrelic AS php-7.3-phalcon-newrelic-datadog
-RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.48.3/datadog-php-tracer_0.48.3_amd64.deb \
+RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
 
 # Add Datadog to the base New Relic image
 FROM php-7.3-newrelic AS php-7.3-newrelic-datadog
-RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.48.3/datadog-php-tracer_0.48.3_amd64.deb \
+RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
