@@ -57,7 +57,7 @@ RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 
 ## Install Redis
-RUN pecl install redis-5.0.2 && \
+RUN pecl install redis-3.1.4 && \
     docker-php-ext-enable redis
 
 ## Install Memcached
@@ -100,7 +100,7 @@ RUN curl -fsSL 'https://github.com/phalcon/cphalcon/archive/v3.4.4.tar.gz' -o ph
 # Phalcon + New Relic Build stage
 FROM php-7.3-phalcon AS php-7.3-phalcon-newrelic
 # Install New Relic Agent
-RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.13.0.270-linux.tar.gz \
+RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.15.0.293-linux.tar.gz \
     | tar -C /tmp -zx \
     && export NR_INSTALL_USE_CP_NOT_LN=1 \
     && export NR_INSTALL_SILENT=1 \
@@ -117,7 +117,7 @@ ENTRYPOINT ["entrypoint.sh"]
 # No Phalcon, just New Relic
 FROM php-7.3-base AS php-7.3-newrelic
 # Install New Relic Agent
-RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.13.0.270-linux.tar.gz \
+RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.15.0.293-linux.tar.gz \
     | tar -C /tmp -zx \
     && export NR_INSTALL_USE_CP_NOT_LN=1 \
     && export NR_INSTALL_SILENT=1 \
