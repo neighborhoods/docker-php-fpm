@@ -56,10 +56,6 @@ RUN docker-php-ext-install pdo_mysql
 # Install the PHP pdo_pgsql extention
 RUN docker-php-ext-install pdo_pgsql
 
-## Install Redis
-RUN pecl install redis-5.0.2 && \
-    docker-php-ext-enable redis
-
 ## Install Memcached
 RUN pecl install memcached \
     && docker-php-ext-enable memcached
@@ -86,6 +82,9 @@ RUN curl -s http://getcomposer.org/installer | php && \
 
 # Phalcon Build Stage
 FROM php-7.3-base AS php-7.3-phalcon
+## Install Redis
+RUN pecl install redis-3.1.4 && \
+    docker-php-ext-enable redis
 # Install Phalcon
 RUN curl -fsSL 'https://github.com/phalcon/cphalcon/archive/v3.4.4.tar.gz' -o phalcon.tar.gz \
     && mkdir -p phalcon \
@@ -100,7 +99,7 @@ RUN curl -fsSL 'https://github.com/phalcon/cphalcon/archive/v3.4.4.tar.gz' -o ph
 # Phalcon + New Relic Build stage
 FROM php-7.3-phalcon AS php-7.3-phalcon-newrelic
 # Install New Relic Agent
-RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.13.0.270-linux.tar.gz \
+RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.15.0.293-linux.tar.gz \
     | tar -C /tmp -zx \
     && export NR_INSTALL_USE_CP_NOT_LN=1 \
     && export NR_INSTALL_SILENT=1 \
@@ -116,8 +115,11 @@ ENTRYPOINT ["entrypoint.sh"]
 
 # No Phalcon, just New Relic
 FROM php-7.3-base AS php-7.3-newrelic
+## Install Redis
+RUN pecl install redis-5.0.2 && \
+    docker-php-ext-enable redis
 # Install New Relic Agent
-RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.13.0.270-linux.tar.gz \
+RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.15.0.293-linux.tar.gz \
     | tar -C /tmp -zx \
     && export NR_INSTALL_USE_CP_NOT_LN=1 \
     && export NR_INSTALL_SILENT=1 \
@@ -148,5 +150,9 @@ RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/re
 
 # Add Datadog to the base image
 FROM php-7.3-base AS php-7.3-datadog
+## Install Redis
+RUN pecl install redis-5.0.2 && \
+    docker-php-ext-enable redis
+## Install Datadog
 RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
