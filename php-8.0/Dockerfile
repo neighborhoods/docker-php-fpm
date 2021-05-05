@@ -1,4 +1,4 @@
-FROM php:7.4-fpm AS php-7.4-base
+FROM php:8.0-fpm AS php-8.0-base
 
 # Install base libs
 RUN apt-get update && \
@@ -86,7 +86,7 @@ RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
 # New Relic Build Stage
-FROM php-7.4-base AS php-7.4-newrelic
+FROM php-8.0-base AS php-8.0-newrelic
 # Install New Relic Agent
 RUN curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-9.13.0.270-linux.tar.gz \
     | tar -C /tmp -zx \
@@ -102,11 +102,11 @@ RUN chmod a=rx /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
 # Datadog build stage
-FROM php-7.4-newrelic AS php-7.4-newrelic-datadog
+FROM php-8.0-newrelic AS php-8.0-newrelic-datadog
 RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
 
 # Datadog (sans-new relic) build stage
-FROM php-7.4-base AS php-7.4-datadog
+FROM php-8.0-base AS php-8.0-datadog
 RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
