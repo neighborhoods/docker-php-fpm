@@ -70,7 +70,9 @@ RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos && \
 	docker-php-ext-install imap
 
 ## Install Zookeeper
-RUN curl -L -o /tmp/zookeeper.tar.gz https://github.com/php-zookeeper/php-zookeeper/archive/v0.6.3.tar.gz \
+## FIXME: Making this way too dynamic php8.0 not yet supported in a release but is supported on master
+## Probably want to go to v0.6.4 as soon as its released
+RUN curl -L -o /tmp/zookeeper.tar.gz https://github.com/php-zookeeper/php-zookeeper/archive/refs/heads/master.tar.gz \
     && mkdir -p /tmp/zookeeper \
     && tar xfz /tmp/zookeeper.tar.gz -C /tmp/zookeeper --strip-components=1 \
     && rm -r /tmp/zookeeper.tar.gz \
