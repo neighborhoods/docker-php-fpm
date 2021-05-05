@@ -87,12 +87,12 @@ RUN docker-php-ext-install opcache && \
 RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-# Set up entrypoint script to regenerate new relic config at container start
+# Set up entrypoint script to regenerate config at container start
 COPY entrypoint.sh /usr/local/bin
 RUN chmod a=rx /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
 # Datadog build stage
 FROM php-8.0-base AS php-8.0-datadog
-RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb \
+RUN curl -SsLo datadog-php-tracer.deb https://github.com/DataDog/dd-trace-php/releases/download/0.52.0/datadog-php-tracer_0.52.0_amd64.deb \
     && dpkg -i datadog-php-tracer.deb
