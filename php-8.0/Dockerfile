@@ -58,7 +58,7 @@ RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 
 ## Install Redis
-RUN pecl install redis-5.3.1 && \
+RUN pecl install redis-5.3.4 && \
     docker-php-ext-enable redis
 
 ## Install Memcached
