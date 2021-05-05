@@ -87,10 +87,7 @@ RUN docker-php-ext-install opcache && \
 RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-# Set up entrypoint script to regenerate config at container start
-COPY entrypoint.sh /usr/local/bin
-RUN chmod a=rx /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+ENV CONF_DIR="/usr/local/etc/php/conf.d"
 
 # Datadog build stage
 FROM php-8.0-base AS php-8.0-datadog
