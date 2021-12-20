@@ -39,7 +39,6 @@ RUN docker-php-ext-install \
     bcmath \
     mbstring \
     pcntl \
-    readline \
     posix \
     sysvmsg \
     sysvsem \
