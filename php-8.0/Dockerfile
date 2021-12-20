@@ -1,5 +1,8 @@
 FROM php:8.0-fpm AS php-8.0-base
 
+# v1.0.0 is the first version to offically support php8.0
+ARG ZOOKEEPER_EXT_VERSION="v1.0.0"
+
 # Install base libs
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -69,9 +72,7 @@ RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos && \
 	docker-php-ext-install imap
 
 ## Install Zookeeper
-## FIXME: Making this way too dynamic php8.0 not yet supported in a release but is supported on master
-## Probably want to go to v0.6.4 as soon as its released
-RUN curl -L -o /tmp/zookeeper.tar.gz https://github.com/php-zookeeper/php-zookeeper/archive/refs/heads/master.tar.gz \
+RUN curl -L -o /tmp/zookeeper.tar.gz "https://github.com/php-zookeeper/php-zookeeper/archive/refs/tags/${ZOOKEEPER_EXT_VERSION}.tar.gz" \
     && mkdir -p /tmp/zookeeper \
     && tar xfz /tmp/zookeeper.tar.gz -C /tmp/zookeeper --strip-components=1 \
     && rm -r /tmp/zookeeper.tar.gz \
